@@ -1,0 +1,10 @@
+//
+// Prefix header for all source files of the 'ProtobuffersShowcase' target in the 'ProtobuffersShowcase' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+
+	#import "ProtocolBuffers.h"
+#endif

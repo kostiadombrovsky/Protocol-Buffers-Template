@@ -1,0 +1,23 @@
+message Product
+{
+	required string name  = 1;
+	required int32 id     = 2;
+	optional int32 price   = 3;
+	optional bool starred = 4;
+	enum OrderStatus
+	{
+		Ordered = 0;
+		Shipped = 1;
+		Idle    = 2;
+	}
+	optional OrderStatus status = 5;
+	
+	message ProductReview
+	{
+		required int32 id 	 = 1;
+		optional string reviewer = 2;
+		optional string review   = 3;
+		required int32 rating  	 = 4;
+	}
+	repeated ProductReview reviews = 6;
+}

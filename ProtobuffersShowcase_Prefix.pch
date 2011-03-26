@@ -7,4 +7,7 @@
     #import <UIKit/UIKit.h>
 
 	#import "ProtocolBuffers.h"
+    #import "PBGeneratedMessage+Additions.h"
+
+    #import "ProtoBuf.pb.h"
 #endif

@@ -6,11 +6,11 @@
 //  Copyright 2011 DriversEd.com. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-@interface ProtobuffersShowcaseViewController : UIViewController {
-
+@interface ProtobuffersShowcaseViewController : UIViewController
+{
 }
+
+@property (nonatomic, retain) IBOutlet UITableView* tableView;
 
 @end
 

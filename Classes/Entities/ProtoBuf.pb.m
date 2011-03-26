@@ -19,14 +19,22 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
-@interface CiklumOffice ()
+@interface CiklumOfficeGPB ()
+@property int64_t officeId;
 @property (retain) NSString* name;
-@property (retain) CiklumOffice_AddressGPB* address;
+@property (retain) CiklumOfficeGPB_AddressGPB* address;
 @property (retain) NSMutableArray* mutableEmployeesList;
 @end
 
-@implementation CiklumOffice
+@implementation CiklumOfficeGPB
 
+- (BOOL) hasOfficeId {
+  return !!hasOfficeId_;
+}
+- (void) setHasOfficeId:(BOOL) value {
+  hasOfficeId_ = !!value;
+}
+@synthesize officeId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -50,31 +58,35 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 - (id) init {
   if ((self = [super init])) {
+    self.officeId = 0L;
     self.name = @"";
-    self.address = [CiklumOffice_AddressGPB defaultInstance];
+    self.address = [CiklumOfficeGPB_AddressGPB defaultInstance];
   }
   return self;
 }
-static CiklumOffice* defaultCiklumOfficeInstance = nil;
+static CiklumOfficeGPB* defaultCiklumOfficeGPBInstance = nil;
 + (void) initialize {
-  if (self == [CiklumOffice class]) {
-    defaultCiklumOfficeInstance = [[CiklumOffice alloc] init];
+  if (self == [CiklumOfficeGPB class]) {
+    defaultCiklumOfficeGPBInstance = [[CiklumOfficeGPB alloc] init];
   }
 }
-+ (CiklumOffice*) defaultInstance {
-  return defaultCiklumOfficeInstance;
++ (CiklumOfficeGPB*) defaultInstance {
+  return defaultCiklumOfficeGPBInstance;
 }
-- (CiklumOffice*) defaultInstance {
-  return defaultCiklumOfficeInstance;
+- (CiklumOfficeGPB*) defaultInstance {
+  return defaultCiklumOfficeGPBInstance;
 }
 - (NSArray*) employeesList {
   return mutableEmployeesList;
 }
-- (CiklumOffice_EmployeeGPB*) employeesAtIndex:(int32_t) index {
+- (CiklumOfficeGPB_EmployeeGPB*) employeesAtIndex:(int32_t) index {
   id value = [mutableEmployeesList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
+  if (!self.hasOfficeId) {
+    return NO;
+  }
   if (!self.hasName) {
     return NO;
   }
@@ -84,7 +96,7 @@ static CiklumOffice* defaultCiklumOfficeInstance = nil;
   if (!self.address.isInitialized) {
     return NO;
   }
-  for (CiklumOffice_EmployeeGPB* element in self.employeesList) {
+  for (CiklumOfficeGPB_EmployeeGPB* element in self.employeesList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -92,14 +104,17 @@ static CiklumOffice* defaultCiklumOfficeInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasOfficeId) {
+    [output writeInt64:1 value:self.officeId];
+  }
   if (self.hasName) {
-    [output writeString:1 value:self.name];
+    [output writeString:2 value:self.name];
   }
   if (self.hasAddress) {
-    [output writeMessage:2 value:self.address];
+    [output writeMessage:3 value:self.address];
   }
-  for (CiklumOffice_EmployeeGPB* element in self.employeesList) {
-    [output writeMessage:3 value:element];
+  for (CiklumOfficeGPB_EmployeeGPB* element in self.employeesList) {
+    [output writeMessage:4 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -110,55 +125,58 @@ static CiklumOffice* defaultCiklumOfficeInstance = nil;
   }
 
   size = 0;
+  if (self.hasOfficeId) {
+    size += computeInt64Size(1, self.officeId);
+  }
   if (self.hasName) {
-    size += computeStringSize(1, self.name);
+    size += computeStringSize(2, self.name);
   }
   if (self.hasAddress) {
-    size += computeMessageSize(2, self.address);
+    size += computeMessageSize(3, self.address);
   }
-  for (CiklumOffice_EmployeeGPB* element in self.employeesList) {
-    size += computeMessageSize(3, element);
+  for (CiklumOfficeGPB_EmployeeGPB* element in self.employeesList) {
+    size += computeMessageSize(4, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (CiklumOffice*) parseFromData:(NSData*) data {
-  return (CiklumOffice*)[[[CiklumOffice builder] mergeFromData:data] build];
++ (CiklumOfficeGPB*) parseFromData:(NSData*) data {
+  return (CiklumOfficeGPB*)[[[CiklumOfficeGPB builder] mergeFromData:data] build];
 }
-+ (CiklumOffice*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice*)[[[CiklumOffice builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB*)[[[CiklumOfficeGPB builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice*) parseFromInputStream:(NSInputStream*) input {
-  return (CiklumOffice*)[[[CiklumOffice builder] mergeFromInputStream:input] build];
++ (CiklumOfficeGPB*) parseFromInputStream:(NSInputStream*) input {
+  return (CiklumOfficeGPB*)[[[CiklumOfficeGPB builder] mergeFromInputStream:input] build];
 }
-+ (CiklumOffice*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice*)[[[CiklumOffice builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB*)[[[CiklumOfficeGPB builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (CiklumOffice*)[[[CiklumOffice builder] mergeFromCodedInputStream:input] build];
++ (CiklumOfficeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CiklumOfficeGPB*)[[[CiklumOfficeGPB builder] mergeFromCodedInputStream:input] build];
 }
-+ (CiklumOffice*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice*)[[[CiklumOffice builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB*)[[[CiklumOfficeGPB builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice_Builder*) builder {
-  return [[[CiklumOffice_Builder alloc] init] autorelease];
++ (CiklumOfficeGPB_Builder*) builder {
+  return [[[CiklumOfficeGPB_Builder alloc] init] autorelease];
 }
-+ (CiklumOffice_Builder*) builderWithPrototype:(CiklumOffice*) prototype {
-  return [[CiklumOffice builder] mergeFrom:prototype];
++ (CiklumOfficeGPB_Builder*) builderWithPrototype:(CiklumOfficeGPB*) prototype {
+  return [[CiklumOfficeGPB builder] mergeFrom:prototype];
 }
-- (CiklumOffice_Builder*) builder {
-  return [CiklumOffice builder];
+- (CiklumOfficeGPB_Builder*) builder {
+  return [CiklumOfficeGPB builder];
 }
 @end
 
-@interface CiklumOffice_AddressGPB ()
+@interface CiklumOfficeGPB_AddressGPB ()
 @property (retain) NSString* address;
 @property (retain) NSString* country;
 @property (retain) NSString* city;
 @end
 
-@implementation CiklumOffice_AddressGPB
+@implementation CiklumOfficeGPB_AddressGPB
 
 - (BOOL) hasAddress {
   return !!hasAddress_;
@@ -195,17 +213,17 @@ static CiklumOffice* defaultCiklumOfficeInstance = nil;
   }
   return self;
 }
-static CiklumOffice_AddressGPB* defaultCiklumOffice_AddressGPBInstance = nil;
+static CiklumOfficeGPB_AddressGPB* defaultCiklumOfficeGPB_AddressGPBInstance = nil;
 + (void) initialize {
-  if (self == [CiklumOffice_AddressGPB class]) {
-    defaultCiklumOffice_AddressGPBInstance = [[CiklumOffice_AddressGPB alloc] init];
+  if (self == [CiklumOfficeGPB_AddressGPB class]) {
+    defaultCiklumOfficeGPB_AddressGPBInstance = [[CiklumOfficeGPB_AddressGPB alloc] init];
   }
 }
-+ (CiklumOffice_AddressGPB*) defaultInstance {
-  return defaultCiklumOffice_AddressGPBInstance;
++ (CiklumOfficeGPB_AddressGPB*) defaultInstance {
+  return defaultCiklumOfficeGPB_AddressGPBInstance;
 }
-- (CiklumOffice_AddressGPB*) defaultInstance {
-  return defaultCiklumOffice_AddressGPBInstance;
+- (CiklumOfficeGPB_AddressGPB*) defaultInstance {
+  return defaultCiklumOfficeGPB_AddressGPBInstance;
 }
 - (BOOL) isInitialized {
   if (!self.hasAddress) {
@@ -251,40 +269,40 @@ static CiklumOffice_AddressGPB* defaultCiklumOffice_AddressGPBInstance = nil;
   memoizedSerializedSize = size;
   return size;
 }
-+ (CiklumOffice_AddressGPB*) parseFromData:(NSData*) data {
-  return (CiklumOffice_AddressGPB*)[[[CiklumOffice_AddressGPB builder] mergeFromData:data] build];
++ (CiklumOfficeGPB_AddressGPB*) parseFromData:(NSData*) data {
+  return (CiklumOfficeGPB_AddressGPB*)[[[CiklumOfficeGPB_AddressGPB builder] mergeFromData:data] build];
 }
-+ (CiklumOffice_AddressGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice_AddressGPB*)[[[CiklumOffice_AddressGPB builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB_AddressGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB_AddressGPB*)[[[CiklumOfficeGPB_AddressGPB builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice_AddressGPB*) parseFromInputStream:(NSInputStream*) input {
-  return (CiklumOffice_AddressGPB*)[[[CiklumOffice_AddressGPB builder] mergeFromInputStream:input] build];
++ (CiklumOfficeGPB_AddressGPB*) parseFromInputStream:(NSInputStream*) input {
+  return (CiklumOfficeGPB_AddressGPB*)[[[CiklumOfficeGPB_AddressGPB builder] mergeFromInputStream:input] build];
 }
-+ (CiklumOffice_AddressGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice_AddressGPB*)[[[CiklumOffice_AddressGPB builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB_AddressGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB_AddressGPB*)[[[CiklumOfficeGPB_AddressGPB builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice_AddressGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (CiklumOffice_AddressGPB*)[[[CiklumOffice_AddressGPB builder] mergeFromCodedInputStream:input] build];
++ (CiklumOfficeGPB_AddressGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CiklumOfficeGPB_AddressGPB*)[[[CiklumOfficeGPB_AddressGPB builder] mergeFromCodedInputStream:input] build];
 }
-+ (CiklumOffice_AddressGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice_AddressGPB*)[[[CiklumOffice_AddressGPB builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB_AddressGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB_AddressGPB*)[[[CiklumOfficeGPB_AddressGPB builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice_AddressGPB_Builder*) builder {
-  return [[[CiklumOffice_AddressGPB_Builder alloc] init] autorelease];
++ (CiklumOfficeGPB_AddressGPB_Builder*) builder {
+  return [[[CiklumOfficeGPB_AddressGPB_Builder alloc] init] autorelease];
 }
-+ (CiklumOffice_AddressGPB_Builder*) builderWithPrototype:(CiklumOffice_AddressGPB*) prototype {
-  return [[CiklumOffice_AddressGPB builder] mergeFrom:prototype];
++ (CiklumOfficeGPB_AddressGPB_Builder*) builderWithPrototype:(CiklumOfficeGPB_AddressGPB*) prototype {
+  return [[CiklumOfficeGPB_AddressGPB builder] mergeFrom:prototype];
 }
-- (CiklumOffice_AddressGPB_Builder*) builder {
-  return [CiklumOffice_AddressGPB builder];
+- (CiklumOfficeGPB_AddressGPB_Builder*) builder {
+  return [CiklumOfficeGPB_AddressGPB builder];
 }
 @end
 
-@interface CiklumOffice_AddressGPB_Builder()
-@property (retain) CiklumOffice_AddressGPB* result;
+@interface CiklumOfficeGPB_AddressGPB_Builder()
+@property (retain) CiklumOfficeGPB_AddressGPB* result;
 @end
 
-@implementation CiklumOffice_AddressGPB_Builder
+@implementation CiklumOfficeGPB_AddressGPB_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -292,34 +310,34 @@ static CiklumOffice_AddressGPB* defaultCiklumOffice_AddressGPBInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[CiklumOffice_AddressGPB alloc] init] autorelease];
+    self.result = [[[CiklumOfficeGPB_AddressGPB alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (CiklumOffice_AddressGPB_Builder*) clear {
-  self.result = [[[CiklumOffice_AddressGPB alloc] init] autorelease];
+- (CiklumOfficeGPB_AddressGPB_Builder*) clear {
+  self.result = [[[CiklumOfficeGPB_AddressGPB alloc] init] autorelease];
   return self;
 }
-- (CiklumOffice_AddressGPB_Builder*) clone {
-  return [CiklumOffice_AddressGPB builderWithPrototype:result];
+- (CiklumOfficeGPB_AddressGPB_Builder*) clone {
+  return [CiklumOfficeGPB_AddressGPB builderWithPrototype:result];
 }
-- (CiklumOffice_AddressGPB*) defaultInstance {
-  return [CiklumOffice_AddressGPB defaultInstance];
+- (CiklumOfficeGPB_AddressGPB*) defaultInstance {
+  return [CiklumOfficeGPB_AddressGPB defaultInstance];
 }
-- (CiklumOffice_AddressGPB*) build {
+- (CiklumOfficeGPB_AddressGPB*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (CiklumOffice_AddressGPB*) buildPartial {
-  CiklumOffice_AddressGPB* returnMe = [[result retain] autorelease];
+- (CiklumOfficeGPB_AddressGPB*) buildPartial {
+  CiklumOfficeGPB_AddressGPB* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (CiklumOffice_AddressGPB_Builder*) mergeFrom:(CiklumOffice_AddressGPB*) other {
-  if (other == [CiklumOffice_AddressGPB defaultInstance]) {
+- (CiklumOfficeGPB_AddressGPB_Builder*) mergeFrom:(CiklumOfficeGPB_AddressGPB*) other {
+  if (other == [CiklumOfficeGPB_AddressGPB defaultInstance]) {
     return self;
   }
   if (other.hasAddress) {
@@ -334,10 +352,10 @@ static CiklumOffice_AddressGPB* defaultCiklumOffice_AddressGPBInstance = nil;
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (CiklumOffice_AddressGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (CiklumOfficeGPB_AddressGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (CiklumOffice_AddressGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (CiklumOfficeGPB_AddressGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -373,12 +391,12 @@ static CiklumOffice_AddressGPB* defaultCiklumOffice_AddressGPBInstance = nil;
 - (NSString*) address {
   return result.address;
 }
-- (CiklumOffice_AddressGPB_Builder*) setAddress:(NSString*) value {
+- (CiklumOfficeGPB_AddressGPB_Builder*) setAddress:(NSString*) value {
   result.hasAddress = YES;
   result.address = value;
   return self;
 }
-- (CiklumOffice_AddressGPB_Builder*) clearAddress {
+- (CiklumOfficeGPB_AddressGPB_Builder*) clearAddress {
   result.hasAddress = NO;
   result.address = @"";
   return self;
@@ -389,12 +407,12 @@ static CiklumOffice_AddressGPB* defaultCiklumOffice_AddressGPBInstance = nil;
 - (NSString*) country {
   return result.country;
 }
-- (CiklumOffice_AddressGPB_Builder*) setCountry:(NSString*) value {
+- (CiklumOfficeGPB_AddressGPB_Builder*) setCountry:(NSString*) value {
   result.hasCountry = YES;
   result.country = value;
   return self;
 }
-- (CiklumOffice_AddressGPB_Builder*) clearCountry {
+- (CiklumOfficeGPB_AddressGPB_Builder*) clearCountry {
   result.hasCountry = NO;
   result.country = @"";
   return self;
@@ -405,27 +423,35 @@ static CiklumOffice_AddressGPB* defaultCiklumOffice_AddressGPBInstance = nil;
 - (NSString*) city {
   return result.city;
 }
-- (CiklumOffice_AddressGPB_Builder*) setCity:(NSString*) value {
+- (CiklumOfficeGPB_AddressGPB_Builder*) setCity:(NSString*) value {
   result.hasCity = YES;
   result.city = value;
   return self;
 }
-- (CiklumOffice_AddressGPB_Builder*) clearCity {
+- (CiklumOfficeGPB_AddressGPB_Builder*) clearCity {
   result.hasCity = NO;
   result.city = @"";
   return self;
 }
 @end
 
-@interface CiklumOffice_EmployeeGPB ()
+@interface CiklumOfficeGPB_EmployeeGPB ()
+@property int64_t employeeId;
 @property (retain) NSString* name;
-@property CiklumOffice_EmployeeGPB_EmployeeType type;
-@property (retain) CiklumOffice_AddressGPB* address;
+@property CiklumOfficeGPB_EmployeeGPB_EmployeeType type;
+@property (retain) CiklumOfficeGPB_AddressGPB* address;
 @property (retain) NSData* photo;
 @end
 
-@implementation CiklumOffice_EmployeeGPB
+@implementation CiklumOfficeGPB_EmployeeGPB
 
+- (BOOL) hasEmployeeId {
+  return !!hasEmployeeId_;
+}
+- (void) setHasEmployeeId:(BOOL) value {
+  hasEmployeeId_ = !!value;
+}
+@synthesize employeeId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -462,26 +488,30 @@ static CiklumOffice_AddressGPB* defaultCiklumOffice_AddressGPBInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
+    self.employeeId = 0L;
     self.name = @"";
-    self.type = CiklumOffice_EmployeeGPB_EmployeeTypeIOsdev;
-    self.address = [CiklumOffice_AddressGPB defaultInstance];
+    self.type = CiklumOfficeGPB_EmployeeGPB_EmployeeTypeIOsdev;
+    self.address = [CiklumOfficeGPB_AddressGPB defaultInstance];
     self.photo = [NSData data];
   }
   return self;
 }
-static CiklumOffice_EmployeeGPB* defaultCiklumOffice_EmployeeGPBInstance = nil;
+static CiklumOfficeGPB_EmployeeGPB* defaultCiklumOfficeGPB_EmployeeGPBInstance = nil;
 + (void) initialize {
-  if (self == [CiklumOffice_EmployeeGPB class]) {
-    defaultCiklumOffice_EmployeeGPBInstance = [[CiklumOffice_EmployeeGPB alloc] init];
+  if (self == [CiklumOfficeGPB_EmployeeGPB class]) {
+    defaultCiklumOfficeGPB_EmployeeGPBInstance = [[CiklumOfficeGPB_EmployeeGPB alloc] init];
   }
 }
-+ (CiklumOffice_EmployeeGPB*) defaultInstance {
-  return defaultCiklumOffice_EmployeeGPBInstance;
++ (CiklumOfficeGPB_EmployeeGPB*) defaultInstance {
+  return defaultCiklumOfficeGPB_EmployeeGPBInstance;
 }
-- (CiklumOffice_EmployeeGPB*) defaultInstance {
-  return defaultCiklumOffice_EmployeeGPBInstance;
+- (CiklumOfficeGPB_EmployeeGPB*) defaultInstance {
+  return defaultCiklumOfficeGPB_EmployeeGPBInstance;
 }
 - (BOOL) isInitialized {
+  if (!self.hasEmployeeId) {
+    return NO;
+  }
   if (!self.hasName) {
     return NO;
   }
@@ -496,17 +526,20 @@ static CiklumOffice_EmployeeGPB* defaultCiklumOffice_EmployeeGPBInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasEmployeeId) {
+    [output writeInt64:1 value:self.employeeId];
+  }
   if (self.hasName) {
-    [output writeString:1 value:self.name];
+    [output writeString:2 value:self.name];
   }
   if (self.hasType) {
-    [output writeEnum:2 value:self.type];
+    [output writeEnum:3 value:self.type];
   }
   if (self.hasAddress) {
-    [output writeMessage:3 value:self.address];
+    [output writeMessage:4 value:self.address];
   }
   if (self.hasPhoto) {
-    [output writeData:4 value:self.photo];
+    [output writeData:5 value:self.photo];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -517,67 +550,71 @@ static CiklumOffice_EmployeeGPB* defaultCiklumOffice_EmployeeGPBInstance = nil;
   }
 
   size = 0;
+  if (self.hasEmployeeId) {
+    size += computeInt64Size(1, self.employeeId);
+  }
   if (self.hasName) {
-    size += computeStringSize(1, self.name);
+    size += computeStringSize(2, self.name);
   }
   if (self.hasType) {
-    size += computeEnumSize(2, self.type);
+    size += computeEnumSize(3, self.type);
   }
   if (self.hasAddress) {
-    size += computeMessageSize(3, self.address);
+    size += computeMessageSize(4, self.address);
   }
   if (self.hasPhoto) {
-    size += computeDataSize(4, self.photo);
+    size += computeDataSize(5, self.photo);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (CiklumOffice_EmployeeGPB*) parseFromData:(NSData*) data {
-  return (CiklumOffice_EmployeeGPB*)[[[CiklumOffice_EmployeeGPB builder] mergeFromData:data] build];
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromData:(NSData*) data {
+  return (CiklumOfficeGPB_EmployeeGPB*)[[[CiklumOfficeGPB_EmployeeGPB builder] mergeFromData:data] build];
 }
-+ (CiklumOffice_EmployeeGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice_EmployeeGPB*)[[[CiklumOffice_EmployeeGPB builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB_EmployeeGPB*)[[[CiklumOfficeGPB_EmployeeGPB builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice_EmployeeGPB*) parseFromInputStream:(NSInputStream*) input {
-  return (CiklumOffice_EmployeeGPB*)[[[CiklumOffice_EmployeeGPB builder] mergeFromInputStream:input] build];
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromInputStream:(NSInputStream*) input {
+  return (CiklumOfficeGPB_EmployeeGPB*)[[[CiklumOfficeGPB_EmployeeGPB builder] mergeFromInputStream:input] build];
 }
-+ (CiklumOffice_EmployeeGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice_EmployeeGPB*)[[[CiklumOffice_EmployeeGPB builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB_EmployeeGPB*)[[[CiklumOfficeGPB_EmployeeGPB builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice_EmployeeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (CiklumOffice_EmployeeGPB*)[[[CiklumOffice_EmployeeGPB builder] mergeFromCodedInputStream:input] build];
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CiklumOfficeGPB_EmployeeGPB*)[[[CiklumOfficeGPB_EmployeeGPB builder] mergeFromCodedInputStream:input] build];
 }
-+ (CiklumOffice_EmployeeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (CiklumOffice_EmployeeGPB*)[[[CiklumOffice_EmployeeGPB builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CiklumOfficeGPB_EmployeeGPB*)[[[CiklumOfficeGPB_EmployeeGPB builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (CiklumOffice_EmployeeGPB_Builder*) builder {
-  return [[[CiklumOffice_EmployeeGPB_Builder alloc] init] autorelease];
++ (CiklumOfficeGPB_EmployeeGPB_Builder*) builder {
+  return [[[CiklumOfficeGPB_EmployeeGPB_Builder alloc] init] autorelease];
 }
-+ (CiklumOffice_EmployeeGPB_Builder*) builderWithPrototype:(CiklumOffice_EmployeeGPB*) prototype {
-  return [[CiklumOffice_EmployeeGPB builder] mergeFrom:prototype];
++ (CiklumOfficeGPB_EmployeeGPB_Builder*) builderWithPrototype:(CiklumOfficeGPB_EmployeeGPB*) prototype {
+  return [[CiklumOfficeGPB_EmployeeGPB builder] mergeFrom:prototype];
 }
-- (CiklumOffice_EmployeeGPB_Builder*) builder {
-  return [CiklumOffice_EmployeeGPB builder];
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) builder {
+  return [CiklumOfficeGPB_EmployeeGPB builder];
 }
 @end
 
-BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_EmployeeType value) {
+BOOL CiklumOfficeGPB_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOfficeGPB_EmployeeGPB_EmployeeType value) {
   switch (value) {
-    case CiklumOffice_EmployeeGPB_EmployeeTypeIOsdev:
-    case CiklumOffice_EmployeeGPB_EmployeeTypeAndroidDev:
-    case CiklumOffice_EmployeeGPB_EmployeeTypeWp7Dev:
-    case CiklumOffice_EmployeeGPB_EmployeeTypeManager:
+    case CiklumOfficeGPB_EmployeeGPB_EmployeeTypeIOsdev:
+    case CiklumOfficeGPB_EmployeeGPB_EmployeeTypeAndroidDev:
+    case CiklumOfficeGPB_EmployeeGPB_EmployeeTypeWp7Dev:
+    case CiklumOfficeGPB_EmployeeGPB_EmployeeTypeManager:
+    case CiklumOfficeGPB_EmployeeGPB_EmployeeTypePm:
       return YES;
     default:
       return NO;
   }
 }
-@interface CiklumOffice_EmployeeGPB_Builder()
-@property (retain) CiklumOffice_EmployeeGPB* result;
+@interface CiklumOfficeGPB_EmployeeGPB_Builder()
+@property (retain) CiklumOfficeGPB_EmployeeGPB* result;
 @end
 
-@implementation CiklumOffice_EmployeeGPB_Builder
+@implementation CiklumOfficeGPB_EmployeeGPB_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -585,35 +622,38 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[CiklumOffice_EmployeeGPB alloc] init] autorelease];
+    self.result = [[[CiklumOfficeGPB_EmployeeGPB alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) clear {
-  self.result = [[[CiklumOffice_EmployeeGPB alloc] init] autorelease];
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clear {
+  self.result = [[[CiklumOfficeGPB_EmployeeGPB alloc] init] autorelease];
   return self;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) clone {
-  return [CiklumOffice_EmployeeGPB builderWithPrototype:result];
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clone {
+  return [CiklumOfficeGPB_EmployeeGPB builderWithPrototype:result];
 }
-- (CiklumOffice_EmployeeGPB*) defaultInstance {
-  return [CiklumOffice_EmployeeGPB defaultInstance];
+- (CiklumOfficeGPB_EmployeeGPB*) defaultInstance {
+  return [CiklumOfficeGPB_EmployeeGPB defaultInstance];
 }
-- (CiklumOffice_EmployeeGPB*) build {
+- (CiklumOfficeGPB_EmployeeGPB*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (CiklumOffice_EmployeeGPB*) buildPartial {
-  CiklumOffice_EmployeeGPB* returnMe = [[result retain] autorelease];
+- (CiklumOfficeGPB_EmployeeGPB*) buildPartial {
+  CiklumOfficeGPB_EmployeeGPB* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) mergeFrom:(CiklumOffice_EmployeeGPB*) other {
-  if (other == [CiklumOffice_EmployeeGPB defaultInstance]) {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) mergeFrom:(CiklumOfficeGPB_EmployeeGPB*) other {
+  if (other == [CiklumOfficeGPB_EmployeeGPB defaultInstance]) {
     return self;
+  }
+  if (other.hasEmployeeId) {
+    [self setEmployeeId:other.employeeId];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -630,10 +670,10 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (CiklumOffice_EmployeeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -648,21 +688,25 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
         }
         break;
       }
-      case 10: {
+      case 8: {
+        [self setEmployeeId:[input readInt64]];
+        break;
+      }
+      case 18: {
         [self setName:[input readString]];
         break;
       }
-      case 16: {
+      case 24: {
         int32_t value = [input readEnum];
-        if (CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(value)) {
+        if (CiklumOfficeGPB_EmployeeGPB_EmployeeTypeIsValidValue(value)) {
           [self setType:value];
         } else {
-          [unknownFields mergeVarintField:2 value:value];
+          [unknownFields mergeVarintField:3 value:value];
         }
         break;
       }
-      case 26: {
-        CiklumOffice_AddressGPB_Builder* subBuilder = [CiklumOffice_AddressGPB builder];
+      case 34: {
+        CiklumOfficeGPB_AddressGPB_Builder* subBuilder = [CiklumOfficeGPB_AddressGPB builder];
         if (self.hasAddress) {
           [subBuilder mergeFrom:self.address];
         }
@@ -670,12 +714,28 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
         [self setAddress:[subBuilder buildPartial]];
         break;
       }
-      case 34: {
+      case 42: {
         [self setPhoto:[input readData]];
         break;
       }
     }
   }
+}
+- (BOOL) hasEmployeeId {
+  return result.hasEmployeeId;
+}
+- (int64_t) employeeId {
+  return result.employeeId;
+}
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setEmployeeId:(int64_t) value {
+  result.hasEmployeeId = YES;
+  result.employeeId = value;
+  return self;
+}
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearEmployeeId {
+  result.hasEmployeeId = NO;
+  result.employeeId = 0L;
+  return self;
 }
 - (BOOL) hasName {
   return result.hasName;
@@ -683,12 +743,12 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
 - (NSString*) name {
   return result.name;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) setName:(NSString*) value {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setName:(NSString*) value {
   result.hasName = YES;
   result.name = value;
   return self;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) clearName {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
   return self;
@@ -696,47 +756,47 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
 - (BOOL) hasType {
   return result.hasType;
 }
-- (CiklumOffice_EmployeeGPB_EmployeeType) type {
+- (CiklumOfficeGPB_EmployeeGPB_EmployeeType) type {
   return result.type;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) setType:(CiklumOffice_EmployeeGPB_EmployeeType) value {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setType:(CiklumOfficeGPB_EmployeeGPB_EmployeeType) value {
   result.hasType = YES;
   result.type = value;
   return self;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) clearType {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearType {
   result.hasType = NO;
-  result.type = CiklumOffice_EmployeeGPB_EmployeeTypeIOsdev;
+  result.type = CiklumOfficeGPB_EmployeeGPB_EmployeeTypeIOsdev;
   return self;
 }
 - (BOOL) hasAddress {
   return result.hasAddress;
 }
-- (CiklumOffice_AddressGPB*) address {
+- (CiklumOfficeGPB_AddressGPB*) address {
   return result.address;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) setAddress:(CiklumOffice_AddressGPB*) value {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setAddress:(CiklumOfficeGPB_AddressGPB*) value {
   result.hasAddress = YES;
   result.address = value;
   return self;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) setAddressBuilder:(CiklumOffice_AddressGPB_Builder*) builderForValue {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setAddressBuilder:(CiklumOfficeGPB_AddressGPB_Builder*) builderForValue {
   return [self setAddress:[builderForValue build]];
 }
-- (CiklumOffice_EmployeeGPB_Builder*) mergeAddress:(CiklumOffice_AddressGPB*) value {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) mergeAddress:(CiklumOfficeGPB_AddressGPB*) value {
   if (result.hasAddress &&
-      result.address != [CiklumOffice_AddressGPB defaultInstance]) {
+      result.address != [CiklumOfficeGPB_AddressGPB defaultInstance]) {
     result.address =
-      [[[CiklumOffice_AddressGPB builderWithPrototype:result.address] mergeFrom:value] buildPartial];
+      [[[CiklumOfficeGPB_AddressGPB builderWithPrototype:result.address] mergeFrom:value] buildPartial];
   } else {
     result.address = value;
   }
   result.hasAddress = YES;
   return self;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) clearAddress {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearAddress {
   result.hasAddress = NO;
-  result.address = [CiklumOffice_AddressGPB defaultInstance];
+  result.address = [CiklumOfficeGPB_AddressGPB defaultInstance];
   return self;
 }
 - (BOOL) hasPhoto {
@@ -745,23 +805,23 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
 - (NSData*) photo {
   return result.photo;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) setPhoto:(NSData*) value {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setPhoto:(NSData*) value {
   result.hasPhoto = YES;
   result.photo = value;
   return self;
 }
-- (CiklumOffice_EmployeeGPB_Builder*) clearPhoto {
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearPhoto {
   result.hasPhoto = NO;
   result.photo = [NSData data];
   return self;
 }
 @end
 
-@interface CiklumOffice_Builder()
-@property (retain) CiklumOffice* result;
+@interface CiklumOfficeGPB_Builder()
+@property (retain) CiklumOfficeGPB* result;
 @end
 
-@implementation CiklumOffice_Builder
+@implementation CiklumOfficeGPB_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -769,35 +829,38 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[CiklumOffice alloc] init] autorelease];
+    self.result = [[[CiklumOfficeGPB alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (CiklumOffice_Builder*) clear {
-  self.result = [[[CiklumOffice alloc] init] autorelease];
+- (CiklumOfficeGPB_Builder*) clear {
+  self.result = [[[CiklumOfficeGPB alloc] init] autorelease];
   return self;
 }
-- (CiklumOffice_Builder*) clone {
-  return [CiklumOffice builderWithPrototype:result];
+- (CiklumOfficeGPB_Builder*) clone {
+  return [CiklumOfficeGPB builderWithPrototype:result];
 }
-- (CiklumOffice*) defaultInstance {
-  return [CiklumOffice defaultInstance];
+- (CiklumOfficeGPB*) defaultInstance {
+  return [CiklumOfficeGPB defaultInstance];
 }
-- (CiklumOffice*) build {
+- (CiklumOfficeGPB*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (CiklumOffice*) buildPartial {
-  CiklumOffice* returnMe = [[result retain] autorelease];
+- (CiklumOfficeGPB*) buildPartial {
+  CiklumOfficeGPB* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (CiklumOffice_Builder*) mergeFrom:(CiklumOffice*) other {
-  if (other == [CiklumOffice defaultInstance]) {
+- (CiklumOfficeGPB_Builder*) mergeFrom:(CiklumOfficeGPB*) other {
+  if (other == [CiklumOfficeGPB defaultInstance]) {
     return self;
+  }
+  if (other.hasOfficeId) {
+    [self setOfficeId:other.officeId];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -814,10 +877,306 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (CiklumOffice_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (CiklumOfficeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (CiklumOffice_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (CiklumOfficeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setOfficeId:[input readInt64]];
+        break;
+      }
+      case 18: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 26: {
+        CiklumOfficeGPB_AddressGPB_Builder* subBuilder = [CiklumOfficeGPB_AddressGPB builder];
+        if (self.hasAddress) {
+          [subBuilder mergeFrom:self.address];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAddress:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        CiklumOfficeGPB_EmployeeGPB_Builder* subBuilder = [CiklumOfficeGPB_EmployeeGPB builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addEmployees:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasOfficeId {
+  return result.hasOfficeId;
+}
+- (int64_t) officeId {
+  return result.officeId;
+}
+- (CiklumOfficeGPB_Builder*) setOfficeId:(int64_t) value {
+  result.hasOfficeId = YES;
+  result.officeId = value;
+  return self;
+}
+- (CiklumOfficeGPB_Builder*) clearOfficeId {
+  result.hasOfficeId = NO;
+  result.officeId = 0L;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (CiklumOfficeGPB_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (CiklumOfficeGPB_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (BOOL) hasAddress {
+  return result.hasAddress;
+}
+- (CiklumOfficeGPB_AddressGPB*) address {
+  return result.address;
+}
+- (CiklumOfficeGPB_Builder*) setAddress:(CiklumOfficeGPB_AddressGPB*) value {
+  result.hasAddress = YES;
+  result.address = value;
+  return self;
+}
+- (CiklumOfficeGPB_Builder*) setAddressBuilder:(CiklumOfficeGPB_AddressGPB_Builder*) builderForValue {
+  return [self setAddress:[builderForValue build]];
+}
+- (CiklumOfficeGPB_Builder*) mergeAddress:(CiklumOfficeGPB_AddressGPB*) value {
+  if (result.hasAddress &&
+      result.address != [CiklumOfficeGPB_AddressGPB defaultInstance]) {
+    result.address =
+      [[[CiklumOfficeGPB_AddressGPB builderWithPrototype:result.address] mergeFrom:value] buildPartial];
+  } else {
+    result.address = value;
+  }
+  result.hasAddress = YES;
+  return self;
+}
+- (CiklumOfficeGPB_Builder*) clearAddress {
+  result.hasAddress = NO;
+  result.address = [CiklumOfficeGPB_AddressGPB defaultInstance];
+  return self;
+}
+- (NSArray*) employeesList {
+  if (result.mutableEmployeesList == nil) { return [NSArray array]; }
+  return result.mutableEmployeesList;
+}
+- (CiklumOfficeGPB_EmployeeGPB*) employeesAtIndex:(int32_t) index {
+  return [result employeesAtIndex:index];
+}
+- (CiklumOfficeGPB_Builder*) replaceEmployeesAtIndex:(int32_t) index with:(CiklumOfficeGPB_EmployeeGPB*) value {
+  [result.mutableEmployeesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (CiklumOfficeGPB_Builder*) addAllEmployees:(NSArray*) values {
+  if (result.mutableEmployeesList == nil) {
+    result.mutableEmployeesList = [NSMutableArray array];
+  }
+  [result.mutableEmployeesList addObjectsFromArray:values];
+  return self;
+}
+- (CiklumOfficeGPB_Builder*) clearEmployeesList {
+  result.mutableEmployeesList = nil;
+  return self;
+}
+- (CiklumOfficeGPB_Builder*) addEmployees:(CiklumOfficeGPB_EmployeeGPB*) value {
+  if (result.mutableEmployeesList == nil) {
+    result.mutableEmployeesList = [NSMutableArray array];
+  }
+  [result.mutableEmployeesList addObject:value];
+  return self;
+}
+@end
+
+@interface ErrorGPB ()
+@property (retain) NSString* errorText;
+@property int32_t errorCode;
+@end
+
+@implementation ErrorGPB
+
+- (BOOL) hasErrorText {
+  return !!hasErrorText_;
+}
+- (void) setHasErrorText:(BOOL) value {
+  hasErrorText_ = !!value;
+}
+@synthesize errorText;
+- (BOOL) hasErrorCode {
+  return !!hasErrorCode_;
+}
+- (void) setHasErrorCode:(BOOL) value {
+  hasErrorCode_ = !!value;
+}
+@synthesize errorCode;
+- (void) dealloc {
+  self.errorText = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.errorText = @"";
+    self.errorCode = 0;
+  }
+  return self;
+}
+static ErrorGPB* defaultErrorGPBInstance = nil;
++ (void) initialize {
+  if (self == [ErrorGPB class]) {
+    defaultErrorGPBInstance = [[ErrorGPB alloc] init];
+  }
+}
++ (ErrorGPB*) defaultInstance {
+  return defaultErrorGPBInstance;
+}
+- (ErrorGPB*) defaultInstance {
+  return defaultErrorGPBInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasErrorText) {
+    return NO;
+  }
+  if (!self.hasErrorCode) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasErrorText) {
+    [output writeString:1 value:self.errorText];
+  }
+  if (self.hasErrorCode) {
+    [output writeInt32:2 value:self.errorCode];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasErrorText) {
+    size += computeStringSize(1, self.errorText);
+  }
+  if (self.hasErrorCode) {
+    size += computeInt32Size(2, self.errorCode);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ErrorGPB*) parseFromData:(NSData*) data {
+  return (ErrorGPB*)[[[ErrorGPB builder] mergeFromData:data] build];
+}
++ (ErrorGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ErrorGPB*)[[[ErrorGPB builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ErrorGPB*) parseFromInputStream:(NSInputStream*) input {
+  return (ErrorGPB*)[[[ErrorGPB builder] mergeFromInputStream:input] build];
+}
++ (ErrorGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ErrorGPB*)[[[ErrorGPB builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ErrorGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ErrorGPB*)[[[ErrorGPB builder] mergeFromCodedInputStream:input] build];
+}
++ (ErrorGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ErrorGPB*)[[[ErrorGPB builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ErrorGPB_Builder*) builder {
+  return [[[ErrorGPB_Builder alloc] init] autorelease];
+}
++ (ErrorGPB_Builder*) builderWithPrototype:(ErrorGPB*) prototype {
+  return [[ErrorGPB builder] mergeFrom:prototype];
+}
+- (ErrorGPB_Builder*) builder {
+  return [ErrorGPB builder];
+}
+@end
+
+@interface ErrorGPB_Builder()
+@property (retain) ErrorGPB* result;
+@end
+
+@implementation ErrorGPB_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ErrorGPB alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ErrorGPB_Builder*) clear {
+  self.result = [[[ErrorGPB alloc] init] autorelease];
+  return self;
+}
+- (ErrorGPB_Builder*) clone {
+  return [ErrorGPB builderWithPrototype:result];
+}
+- (ErrorGPB*) defaultInstance {
+  return [ErrorGPB defaultInstance];
+}
+- (ErrorGPB*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ErrorGPB*) buildPartial {
+  ErrorGPB* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ErrorGPB_Builder*) mergeFrom:(ErrorGPB*) other {
+  if (other == [ErrorGPB defaultInstance]) {
+    return self;
+  }
+  if (other.hasErrorText) {
+    [self setErrorText:other.errorText];
+  }
+  if (other.hasErrorCode) {
+    [self setErrorCode:other.errorCode];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ErrorGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ErrorGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -833,100 +1192,490 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
         break;
       }
       case 10: {
-        [self setName:[input readString]];
+        [self setErrorText:[input readString]];
         break;
       }
-      case 18: {
-        CiklumOffice_AddressGPB_Builder* subBuilder = [CiklumOffice_AddressGPB builder];
-        if (self.hasAddress) {
-          [subBuilder mergeFrom:self.address];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setAddress:[subBuilder buildPartial]];
-        break;
-      }
-      case 26: {
-        CiklumOffice_EmployeeGPB_Builder* subBuilder = [CiklumOffice_EmployeeGPB builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addEmployees:[subBuilder buildPartial]];
+      case 16: {
+        [self setErrorCode:[input readInt32]];
         break;
       }
     }
   }
 }
-- (BOOL) hasName {
-  return result.hasName;
+- (BOOL) hasErrorText {
+  return result.hasErrorText;
 }
-- (NSString*) name {
-  return result.name;
+- (NSString*) errorText {
+  return result.errorText;
 }
-- (CiklumOffice_Builder*) setName:(NSString*) value {
-  result.hasName = YES;
-  result.name = value;
+- (ErrorGPB_Builder*) setErrorText:(NSString*) value {
+  result.hasErrorText = YES;
+  result.errorText = value;
   return self;
 }
-- (CiklumOffice_Builder*) clearName {
-  result.hasName = NO;
-  result.name = @"";
+- (ErrorGPB_Builder*) clearErrorText {
+  result.hasErrorText = NO;
+  result.errorText = @"";
   return self;
 }
-- (BOOL) hasAddress {
-  return result.hasAddress;
+- (BOOL) hasErrorCode {
+  return result.hasErrorCode;
 }
-- (CiklumOffice_AddressGPB*) address {
-  return result.address;
+- (int32_t) errorCode {
+  return result.errorCode;
 }
-- (CiklumOffice_Builder*) setAddress:(CiklumOffice_AddressGPB*) value {
-  result.hasAddress = YES;
-  result.address = value;
+- (ErrorGPB_Builder*) setErrorCode:(int32_t) value {
+  result.hasErrorCode = YES;
+  result.errorCode = value;
   return self;
 }
-- (CiklumOffice_Builder*) setAddressBuilder:(CiklumOffice_AddressGPB_Builder*) builderForValue {
-  return [self setAddress:[builderForValue build]];
+- (ErrorGPB_Builder*) clearErrorCode {
+  result.hasErrorCode = NO;
+  result.errorCode = 0;
+  return self;
 }
-- (CiklumOffice_Builder*) mergeAddress:(CiklumOffice_AddressGPB*) value {
-  if (result.hasAddress &&
-      result.address != [CiklumOffice_AddressGPB defaultInstance]) {
-    result.address =
-      [[[CiklumOffice_AddressGPB builderWithPrototype:result.address] mergeFrom:value] buildPartial];
+@end
+
+@interface OfficeRequest ()
+@property int64_t officeId;
+@end
+
+@implementation OfficeRequest
+
+- (BOOL) hasOfficeId {
+  return !!hasOfficeId_;
+}
+- (void) setHasOfficeId:(BOOL) value {
+  hasOfficeId_ = !!value;
+}
+@synthesize officeId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.officeId = 0L;
+  }
+  return self;
+}
+static OfficeRequest* defaultOfficeRequestInstance = nil;
++ (void) initialize {
+  if (self == [OfficeRequest class]) {
+    defaultOfficeRequestInstance = [[OfficeRequest alloc] init];
+  }
+}
++ (OfficeRequest*) defaultInstance {
+  return defaultOfficeRequestInstance;
+}
+- (OfficeRequest*) defaultInstance {
+  return defaultOfficeRequestInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasOfficeId) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasOfficeId) {
+    [output writeInt64:1 value:self.officeId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasOfficeId) {
+    size += computeInt64Size(1, self.officeId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (OfficeRequest*) parseFromData:(NSData*) data {
+  return (OfficeRequest*)[[[OfficeRequest builder] mergeFromData:data] build];
+}
++ (OfficeRequest*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (OfficeRequest*)[[[OfficeRequest builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (OfficeRequest*) parseFromInputStream:(NSInputStream*) input {
+  return (OfficeRequest*)[[[OfficeRequest builder] mergeFromInputStream:input] build];
+}
++ (OfficeRequest*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (OfficeRequest*)[[[OfficeRequest builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (OfficeRequest*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (OfficeRequest*)[[[OfficeRequest builder] mergeFromCodedInputStream:input] build];
+}
++ (OfficeRequest*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (OfficeRequest*)[[[OfficeRequest builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (OfficeRequest_Builder*) builder {
+  return [[[OfficeRequest_Builder alloc] init] autorelease];
+}
++ (OfficeRequest_Builder*) builderWithPrototype:(OfficeRequest*) prototype {
+  return [[OfficeRequest builder] mergeFrom:prototype];
+}
+- (OfficeRequest_Builder*) builder {
+  return [OfficeRequest builder];
+}
+@end
+
+@interface OfficeRequest_Builder()
+@property (retain) OfficeRequest* result;
+@end
+
+@implementation OfficeRequest_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[OfficeRequest alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (OfficeRequest_Builder*) clear {
+  self.result = [[[OfficeRequest alloc] init] autorelease];
+  return self;
+}
+- (OfficeRequest_Builder*) clone {
+  return [OfficeRequest builderWithPrototype:result];
+}
+- (OfficeRequest*) defaultInstance {
+  return [OfficeRequest defaultInstance];
+}
+- (OfficeRequest*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (OfficeRequest*) buildPartial {
+  OfficeRequest* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (OfficeRequest_Builder*) mergeFrom:(OfficeRequest*) other {
+  if (other == [OfficeRequest defaultInstance]) {
+    return self;
+  }
+  if (other.hasOfficeId) {
+    [self setOfficeId:other.officeId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (OfficeRequest_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (OfficeRequest_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setOfficeId:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasOfficeId {
+  return result.hasOfficeId;
+}
+- (int64_t) officeId {
+  return result.officeId;
+}
+- (OfficeRequest_Builder*) setOfficeId:(int64_t) value {
+  result.hasOfficeId = YES;
+  result.officeId = value;
+  return self;
+}
+- (OfficeRequest_Builder*) clearOfficeId {
+  result.hasOfficeId = NO;
+  result.officeId = 0L;
+  return self;
+}
+@end
+
+@interface OfficeResponse ()
+@property (retain) ErrorGPB* error;
+@property (retain) NSMutableArray* mutableOfficeList;
+@end
+
+@implementation OfficeResponse
+
+- (BOOL) hasError {
+  return !!hasError_;
+}
+- (void) setHasError:(BOOL) value {
+  hasError_ = !!value;
+}
+@synthesize error;
+@synthesize mutableOfficeList;
+- (void) dealloc {
+  self.error = nil;
+  self.mutableOfficeList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.error = [ErrorGPB defaultInstance];
+  }
+  return self;
+}
+static OfficeResponse* defaultOfficeResponseInstance = nil;
++ (void) initialize {
+  if (self == [OfficeResponse class]) {
+    defaultOfficeResponseInstance = [[OfficeResponse alloc] init];
+  }
+}
++ (OfficeResponse*) defaultInstance {
+  return defaultOfficeResponseInstance;
+}
+- (OfficeResponse*) defaultInstance {
+  return defaultOfficeResponseInstance;
+}
+- (NSArray*) officeList {
+  return mutableOfficeList;
+}
+- (CiklumOfficeGPB*) officeAtIndex:(int32_t) index {
+  id value = [mutableOfficeList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (self.hasError) {
+    if (!self.error.isInitialized) {
+      return NO;
+    }
+  }
+  for (CiklumOfficeGPB* element in self.officeList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasError) {
+    [output writeMessage:1 value:self.error];
+  }
+  for (CiklumOfficeGPB* element in self.officeList) {
+    [output writeMessage:2 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasError) {
+    size += computeMessageSize(1, self.error);
+  }
+  for (CiklumOfficeGPB* element in self.officeList) {
+    size += computeMessageSize(2, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (OfficeResponse*) parseFromData:(NSData*) data {
+  return (OfficeResponse*)[[[OfficeResponse builder] mergeFromData:data] build];
+}
++ (OfficeResponse*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (OfficeResponse*)[[[OfficeResponse builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (OfficeResponse*) parseFromInputStream:(NSInputStream*) input {
+  return (OfficeResponse*)[[[OfficeResponse builder] mergeFromInputStream:input] build];
+}
++ (OfficeResponse*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (OfficeResponse*)[[[OfficeResponse builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (OfficeResponse*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (OfficeResponse*)[[[OfficeResponse builder] mergeFromCodedInputStream:input] build];
+}
++ (OfficeResponse*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (OfficeResponse*)[[[OfficeResponse builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (OfficeResponse_Builder*) builder {
+  return [[[OfficeResponse_Builder alloc] init] autorelease];
+}
++ (OfficeResponse_Builder*) builderWithPrototype:(OfficeResponse*) prototype {
+  return [[OfficeResponse builder] mergeFrom:prototype];
+}
+- (OfficeResponse_Builder*) builder {
+  return [OfficeResponse builder];
+}
+@end
+
+@interface OfficeResponse_Builder()
+@property (retain) OfficeResponse* result;
+@end
+
+@implementation OfficeResponse_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[OfficeResponse alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (OfficeResponse_Builder*) clear {
+  self.result = [[[OfficeResponse alloc] init] autorelease];
+  return self;
+}
+- (OfficeResponse_Builder*) clone {
+  return [OfficeResponse builderWithPrototype:result];
+}
+- (OfficeResponse*) defaultInstance {
+  return [OfficeResponse defaultInstance];
+}
+- (OfficeResponse*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (OfficeResponse*) buildPartial {
+  OfficeResponse* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (OfficeResponse_Builder*) mergeFrom:(OfficeResponse*) other {
+  if (other == [OfficeResponse defaultInstance]) {
+    return self;
+  }
+  if (other.hasError) {
+    [self mergeError:other.error];
+  }
+  if (other.mutableOfficeList.count > 0) {
+    if (result.mutableOfficeList == nil) {
+      result.mutableOfficeList = [NSMutableArray array];
+    }
+    [result.mutableOfficeList addObjectsFromArray:other.mutableOfficeList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (OfficeResponse_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (OfficeResponse_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        ErrorGPB_Builder* subBuilder = [ErrorGPB builder];
+        if (self.hasError) {
+          [subBuilder mergeFrom:self.error];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setError:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        CiklumOfficeGPB_Builder* subBuilder = [CiklumOfficeGPB builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addOffice:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasError {
+  return result.hasError;
+}
+- (ErrorGPB*) error {
+  return result.error;
+}
+- (OfficeResponse_Builder*) setError:(ErrorGPB*) value {
+  result.hasError = YES;
+  result.error = value;
+  return self;
+}
+- (OfficeResponse_Builder*) setErrorBuilder:(ErrorGPB_Builder*) builderForValue {
+  return [self setError:[builderForValue build]];
+}
+- (OfficeResponse_Builder*) mergeError:(ErrorGPB*) value {
+  if (result.hasError &&
+      result.error != [ErrorGPB defaultInstance]) {
+    result.error =
+      [[[ErrorGPB builderWithPrototype:result.error] mergeFrom:value] buildPartial];
   } else {
-    result.address = value;
+    result.error = value;
   }
-  result.hasAddress = YES;
+  result.hasError = YES;
   return self;
 }
-- (CiklumOffice_Builder*) clearAddress {
-  result.hasAddress = NO;
-  result.address = [CiklumOffice_AddressGPB defaultInstance];
+- (OfficeResponse_Builder*) clearError {
+  result.hasError = NO;
+  result.error = [ErrorGPB defaultInstance];
   return self;
 }
-- (NSArray*) employeesList {
-  if (result.mutableEmployeesList == nil) { return [NSArray array]; }
-  return result.mutableEmployeesList;
+- (NSArray*) officeList {
+  if (result.mutableOfficeList == nil) { return [NSArray array]; }
+  return result.mutableOfficeList;
 }
-- (CiklumOffice_EmployeeGPB*) employeesAtIndex:(int32_t) index {
-  return [result employeesAtIndex:index];
+- (CiklumOfficeGPB*) officeAtIndex:(int32_t) index {
+  return [result officeAtIndex:index];
 }
-- (CiklumOffice_Builder*) replaceEmployeesAtIndex:(int32_t) index with:(CiklumOffice_EmployeeGPB*) value {
-  [result.mutableEmployeesList replaceObjectAtIndex:index withObject:value];
+- (OfficeResponse_Builder*) replaceOfficeAtIndex:(int32_t) index with:(CiklumOfficeGPB*) value {
+  [result.mutableOfficeList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (CiklumOffice_Builder*) addAllEmployees:(NSArray*) values {
-  if (result.mutableEmployeesList == nil) {
-    result.mutableEmployeesList = [NSMutableArray array];
+- (OfficeResponse_Builder*) addAllOffice:(NSArray*) values {
+  if (result.mutableOfficeList == nil) {
+    result.mutableOfficeList = [NSMutableArray array];
   }
-  [result.mutableEmployeesList addObjectsFromArray:values];
+  [result.mutableOfficeList addObjectsFromArray:values];
   return self;
 }
-- (CiklumOffice_Builder*) clearEmployeesList {
-  result.mutableEmployeesList = nil;
+- (OfficeResponse_Builder*) clearOfficeList {
+  result.mutableOfficeList = nil;
   return self;
 }
-- (CiklumOffice_Builder*) addEmployees:(CiklumOffice_EmployeeGPB*) value {
-  if (result.mutableEmployeesList == nil) {
-    result.mutableEmployeesList = [NSMutableArray array];
+- (OfficeResponse_Builder*) addOffice:(CiklumOfficeGPB*) value {
+  if (result.mutableOfficeList == nil) {
+    result.mutableOfficeList = [NSMutableArray array];
   }
-  [result.mutableEmployeesList addObject:value];
+  [result.mutableOfficeList addObject:value];
   return self;
 }
 @end

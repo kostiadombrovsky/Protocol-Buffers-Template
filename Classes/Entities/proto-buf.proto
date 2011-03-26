@@ -1,4 +1,4 @@
-message CiklumOffice
+message CiklumOfficeGPB
 {
     message AddressGPB
     {
@@ -9,15 +9,34 @@ message CiklumOffice
 
     message EmployeeGPB
     {
-        enum EmployeeType { iOSDev = 1; AndroidDev = 2; WP7Dev = 3; Manager = 4;}
+        enum EmployeeType { iOSDev = 1; AndroidDev = 2; WP7Dev = 3; Manager = 4; PM = 5; }
 
-        required string       name    = 1;
-        required EmployeeType type    = 2;
-        optional AddressGPB   address = 3;
-        optional bytes        photo   = 4;
+        required int64        employeeId = 1;
+        required string       name       = 2;
+        required EmployeeType type       = 3;
+        optional AddressGPB   address    = 4;
+        optional bytes        photo      = 5;
     }
+    
+    required int64       officeId   = 1;
+    required string      name       = 2;
+    required AddressGPB  address    = 3;
+    repeated EmployeeGPB employees  = 4;
+}
 
-	required string      name       = 1;
-    required AddressGPB  address    = 2;
-    repeated EmployeeGPB employees  = 3;
+message ErrorGPB
+{
+    required string errorText = 1;
+    required int32  errorCode = 2;
+}
+
+message OfficeRequest
+{
+    required int64 officeId = 1;
+}
+
+message OfficeResponse
+{
+    optional ErrorGPB        error    = 1;
+    repeated CiklumOfficeGPB office   = 2;
 }

@@ -2,20 +2,27 @@
 
 #import "ProtocolBuffers.h"
 
-@class CiklumOffice;
-@class CiklumOffice_AddressGPB;
-@class CiklumOffice_AddressGPB_Builder;
-@class CiklumOffice_Builder;
-@class CiklumOffice_EmployeeGPB;
-@class CiklumOffice_EmployeeGPB_Builder;
+@class CiklumOfficeGPB;
+@class CiklumOfficeGPB_AddressGPB;
+@class CiklumOfficeGPB_AddressGPB_Builder;
+@class CiklumOfficeGPB_Builder;
+@class CiklumOfficeGPB_EmployeeGPB;
+@class CiklumOfficeGPB_EmployeeGPB_Builder;
+@class ErrorGPB;
+@class ErrorGPB_Builder;
+@class OfficeRequest;
+@class OfficeRequest_Builder;
+@class OfficeResponse;
+@class OfficeResponse_Builder;
 typedef enum {
-  CiklumOffice_EmployeeGPB_EmployeeTypeIOsdev = 1,
-  CiklumOffice_EmployeeGPB_EmployeeTypeAndroidDev = 2,
-  CiklumOffice_EmployeeGPB_EmployeeTypeWp7Dev = 3,
-  CiklumOffice_EmployeeGPB_EmployeeTypeManager = 4,
-} CiklumOffice_EmployeeGPB_EmployeeType;
+  CiklumOfficeGPB_EmployeeGPB_EmployeeTypeIOsdev = 1,
+  CiklumOfficeGPB_EmployeeGPB_EmployeeTypeAndroidDev = 2,
+  CiklumOfficeGPB_EmployeeGPB_EmployeeTypeWp7Dev = 3,
+  CiklumOfficeGPB_EmployeeGPB_EmployeeTypeManager = 4,
+  CiklumOfficeGPB_EmployeeGPB_EmployeeTypePm = 5,
+} CiklumOfficeGPB_EmployeeGPB_EmployeeType;
 
-BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_EmployeeType value);
+BOOL CiklumOfficeGPB_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOfficeGPB_EmployeeGPB_EmployeeType value);
 
 
 @interface ProtoBufRoot : NSObject {
@@ -24,39 +31,43 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
 @end
 
-@interface CiklumOffice : PBGeneratedMessage {
+@interface CiklumOfficeGPB : PBGeneratedMessage {
 @private
+  BOOL hasOfficeId_:1;
   BOOL hasName_:1;
   BOOL hasAddress_:1;
+  int64_t officeId;
   NSString* name;
-  CiklumOffice_AddressGPB* address;
+  CiklumOfficeGPB_AddressGPB* address;
   NSMutableArray* mutableEmployeesList;
 }
+- (BOOL) hasOfficeId;
 - (BOOL) hasName;
 - (BOOL) hasAddress;
+@property (readonly) int64_t officeId;
 @property (readonly, retain) NSString* name;
-@property (readonly, retain) CiklumOffice_AddressGPB* address;
+@property (readonly, retain) CiklumOfficeGPB_AddressGPB* address;
 - (NSArray*) employeesList;
-- (CiklumOffice_EmployeeGPB*) employeesAtIndex:(int32_t) index;
+- (CiklumOfficeGPB_EmployeeGPB*) employeesAtIndex:(int32_t) index;
 
-+ (CiklumOffice*) defaultInstance;
-- (CiklumOffice*) defaultInstance;
++ (CiklumOfficeGPB*) defaultInstance;
+- (CiklumOfficeGPB*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (CiklumOffice_Builder*) builder;
-+ (CiklumOffice_Builder*) builder;
-+ (CiklumOffice_Builder*) builderWithPrototype:(CiklumOffice*) prototype;
+- (CiklumOfficeGPB_Builder*) builder;
++ (CiklumOfficeGPB_Builder*) builder;
++ (CiklumOfficeGPB_Builder*) builderWithPrototype:(CiklumOfficeGPB*) prototype;
 
-+ (CiklumOffice*) parseFromData:(NSData*) data;
-+ (CiklumOffice*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CiklumOffice*) parseFromInputStream:(NSInputStream*) input;
-+ (CiklumOffice*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CiklumOffice*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (CiklumOffice*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB*) parseFromData:(NSData*) data;
++ (CiklumOfficeGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB*) parseFromInputStream:(NSInputStream*) input;
++ (CiklumOfficeGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CiklumOfficeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CiklumOffice_AddressGPB : PBGeneratedMessage {
+@interface CiklumOfficeGPB_AddressGPB : PBGeneratedMessage {
 @private
   BOOL hasAddress_:1;
   BOOL hasCountry_:1;
@@ -72,167 +83,346 @@ BOOL CiklumOffice_EmployeeGPB_EmployeeTypeIsValidValue(CiklumOffice_EmployeeGPB_
 @property (readonly, retain) NSString* country;
 @property (readonly, retain) NSString* city;
 
-+ (CiklumOffice_AddressGPB*) defaultInstance;
-- (CiklumOffice_AddressGPB*) defaultInstance;
++ (CiklumOfficeGPB_AddressGPB*) defaultInstance;
+- (CiklumOfficeGPB_AddressGPB*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (CiklumOffice_AddressGPB_Builder*) builder;
-+ (CiklumOffice_AddressGPB_Builder*) builder;
-+ (CiklumOffice_AddressGPB_Builder*) builderWithPrototype:(CiklumOffice_AddressGPB*) prototype;
+- (CiklumOfficeGPB_AddressGPB_Builder*) builder;
++ (CiklumOfficeGPB_AddressGPB_Builder*) builder;
++ (CiklumOfficeGPB_AddressGPB_Builder*) builderWithPrototype:(CiklumOfficeGPB_AddressGPB*) prototype;
 
-+ (CiklumOffice_AddressGPB*) parseFromData:(NSData*) data;
-+ (CiklumOffice_AddressGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CiklumOffice_AddressGPB*) parseFromInputStream:(NSInputStream*) input;
-+ (CiklumOffice_AddressGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CiklumOffice_AddressGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (CiklumOffice_AddressGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB_AddressGPB*) parseFromData:(NSData*) data;
++ (CiklumOfficeGPB_AddressGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB_AddressGPB*) parseFromInputStream:(NSInputStream*) input;
++ (CiklumOfficeGPB_AddressGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB_AddressGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CiklumOfficeGPB_AddressGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CiklumOffice_AddressGPB_Builder : PBGeneratedMessage_Builder {
+@interface CiklumOfficeGPB_AddressGPB_Builder : PBGeneratedMessage_Builder {
 @private
-  CiklumOffice_AddressGPB* result;
+  CiklumOfficeGPB_AddressGPB* result;
 }
 
-- (CiklumOffice_AddressGPB*) defaultInstance;
+- (CiklumOfficeGPB_AddressGPB*) defaultInstance;
 
-- (CiklumOffice_AddressGPB_Builder*) clear;
-- (CiklumOffice_AddressGPB_Builder*) clone;
+- (CiklumOfficeGPB_AddressGPB_Builder*) clear;
+- (CiklumOfficeGPB_AddressGPB_Builder*) clone;
 
-- (CiklumOffice_AddressGPB*) build;
-- (CiklumOffice_AddressGPB*) buildPartial;
+- (CiklumOfficeGPB_AddressGPB*) build;
+- (CiklumOfficeGPB_AddressGPB*) buildPartial;
 
-- (CiklumOffice_AddressGPB_Builder*) mergeFrom:(CiklumOffice_AddressGPB*) other;
-- (CiklumOffice_AddressGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (CiklumOffice_AddressGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (CiklumOfficeGPB_AddressGPB_Builder*) mergeFrom:(CiklumOfficeGPB_AddressGPB*) other;
+- (CiklumOfficeGPB_AddressGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CiklumOfficeGPB_AddressGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasAddress;
 - (NSString*) address;
-- (CiklumOffice_AddressGPB_Builder*) setAddress:(NSString*) value;
-- (CiklumOffice_AddressGPB_Builder*) clearAddress;
+- (CiklumOfficeGPB_AddressGPB_Builder*) setAddress:(NSString*) value;
+- (CiklumOfficeGPB_AddressGPB_Builder*) clearAddress;
 
 - (BOOL) hasCountry;
 - (NSString*) country;
-- (CiklumOffice_AddressGPB_Builder*) setCountry:(NSString*) value;
-- (CiklumOffice_AddressGPB_Builder*) clearCountry;
+- (CiklumOfficeGPB_AddressGPB_Builder*) setCountry:(NSString*) value;
+- (CiklumOfficeGPB_AddressGPB_Builder*) clearCountry;
 
 - (BOOL) hasCity;
 - (NSString*) city;
-- (CiklumOffice_AddressGPB_Builder*) setCity:(NSString*) value;
-- (CiklumOffice_AddressGPB_Builder*) clearCity;
+- (CiklumOfficeGPB_AddressGPB_Builder*) setCity:(NSString*) value;
+- (CiklumOfficeGPB_AddressGPB_Builder*) clearCity;
 @end
 
-@interface CiklumOffice_EmployeeGPB : PBGeneratedMessage {
+@interface CiklumOfficeGPB_EmployeeGPB : PBGeneratedMessage {
 @private
+  BOOL hasEmployeeId_:1;
   BOOL hasName_:1;
   BOOL hasAddress_:1;
   BOOL hasPhoto_:1;
   BOOL hasType_:1;
+  int64_t employeeId;
   NSString* name;
-  CiklumOffice_AddressGPB* address;
+  CiklumOfficeGPB_AddressGPB* address;
   NSData* photo;
-  CiklumOffice_EmployeeGPB_EmployeeType type;
+  CiklumOfficeGPB_EmployeeGPB_EmployeeType type;
 }
+- (BOOL) hasEmployeeId;
 - (BOOL) hasName;
 - (BOOL) hasType;
 - (BOOL) hasAddress;
 - (BOOL) hasPhoto;
+@property (readonly) int64_t employeeId;
 @property (readonly, retain) NSString* name;
-@property (readonly) CiklumOffice_EmployeeGPB_EmployeeType type;
-@property (readonly, retain) CiklumOffice_AddressGPB* address;
+@property (readonly) CiklumOfficeGPB_EmployeeGPB_EmployeeType type;
+@property (readonly, retain) CiklumOfficeGPB_AddressGPB* address;
 @property (readonly, retain) NSData* photo;
 
-+ (CiklumOffice_EmployeeGPB*) defaultInstance;
-- (CiklumOffice_EmployeeGPB*) defaultInstance;
++ (CiklumOfficeGPB_EmployeeGPB*) defaultInstance;
+- (CiklumOfficeGPB_EmployeeGPB*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (CiklumOffice_EmployeeGPB_Builder*) builder;
-+ (CiklumOffice_EmployeeGPB_Builder*) builder;
-+ (CiklumOffice_EmployeeGPB_Builder*) builderWithPrototype:(CiklumOffice_EmployeeGPB*) prototype;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) builder;
++ (CiklumOfficeGPB_EmployeeGPB_Builder*) builder;
++ (CiklumOfficeGPB_EmployeeGPB_Builder*) builderWithPrototype:(CiklumOfficeGPB_EmployeeGPB*) prototype;
 
-+ (CiklumOffice_EmployeeGPB*) parseFromData:(NSData*) data;
-+ (CiklumOffice_EmployeeGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CiklumOffice_EmployeeGPB*) parseFromInputStream:(NSInputStream*) input;
-+ (CiklumOffice_EmployeeGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CiklumOffice_EmployeeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (CiklumOffice_EmployeeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromData:(NSData*) data;
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromInputStream:(NSInputStream*) input;
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CiklumOfficeGPB_EmployeeGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface CiklumOffice_EmployeeGPB_Builder : PBGeneratedMessage_Builder {
+@interface CiklumOfficeGPB_EmployeeGPB_Builder : PBGeneratedMessage_Builder {
 @private
-  CiklumOffice_EmployeeGPB* result;
+  CiklumOfficeGPB_EmployeeGPB* result;
 }
 
-- (CiklumOffice_EmployeeGPB*) defaultInstance;
+- (CiklumOfficeGPB_EmployeeGPB*) defaultInstance;
 
-- (CiklumOffice_EmployeeGPB_Builder*) clear;
-- (CiklumOffice_EmployeeGPB_Builder*) clone;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clear;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clone;
 
-- (CiklumOffice_EmployeeGPB*) build;
-- (CiklumOffice_EmployeeGPB*) buildPartial;
+- (CiklumOfficeGPB_EmployeeGPB*) build;
+- (CiklumOfficeGPB_EmployeeGPB*) buildPartial;
 
-- (CiklumOffice_EmployeeGPB_Builder*) mergeFrom:(CiklumOffice_EmployeeGPB*) other;
-- (CiklumOffice_EmployeeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (CiklumOffice_EmployeeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) mergeFrom:(CiklumOfficeGPB_EmployeeGPB*) other;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasEmployeeId;
+- (int64_t) employeeId;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setEmployeeId:(int64_t) value;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearEmployeeId;
 
 - (BOOL) hasName;
 - (NSString*) name;
-- (CiklumOffice_EmployeeGPB_Builder*) setName:(NSString*) value;
-- (CiklumOffice_EmployeeGPB_Builder*) clearName;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setName:(NSString*) value;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearName;
 
 - (BOOL) hasType;
-- (CiklumOffice_EmployeeGPB_EmployeeType) type;
-- (CiklumOffice_EmployeeGPB_Builder*) setType:(CiklumOffice_EmployeeGPB_EmployeeType) value;
-- (CiklumOffice_EmployeeGPB_Builder*) clearType;
+- (CiklumOfficeGPB_EmployeeGPB_EmployeeType) type;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setType:(CiklumOfficeGPB_EmployeeGPB_EmployeeType) value;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearType;
 
 - (BOOL) hasAddress;
-- (CiklumOffice_AddressGPB*) address;
-- (CiklumOffice_EmployeeGPB_Builder*) setAddress:(CiklumOffice_AddressGPB*) value;
-- (CiklumOffice_EmployeeGPB_Builder*) setAddressBuilder:(CiklumOffice_AddressGPB_Builder*) builderForValue;
-- (CiklumOffice_EmployeeGPB_Builder*) mergeAddress:(CiklumOffice_AddressGPB*) value;
-- (CiklumOffice_EmployeeGPB_Builder*) clearAddress;
+- (CiklumOfficeGPB_AddressGPB*) address;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setAddress:(CiklumOfficeGPB_AddressGPB*) value;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setAddressBuilder:(CiklumOfficeGPB_AddressGPB_Builder*) builderForValue;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) mergeAddress:(CiklumOfficeGPB_AddressGPB*) value;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearAddress;
 
 - (BOOL) hasPhoto;
 - (NSData*) photo;
-- (CiklumOffice_EmployeeGPB_Builder*) setPhoto:(NSData*) value;
-- (CiklumOffice_EmployeeGPB_Builder*) clearPhoto;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) setPhoto:(NSData*) value;
+- (CiklumOfficeGPB_EmployeeGPB_Builder*) clearPhoto;
 @end
 
-@interface CiklumOffice_Builder : PBGeneratedMessage_Builder {
+@interface CiklumOfficeGPB_Builder : PBGeneratedMessage_Builder {
 @private
-  CiklumOffice* result;
+  CiklumOfficeGPB* result;
 }
 
-- (CiklumOffice*) defaultInstance;
+- (CiklumOfficeGPB*) defaultInstance;
 
-- (CiklumOffice_Builder*) clear;
-- (CiklumOffice_Builder*) clone;
+- (CiklumOfficeGPB_Builder*) clear;
+- (CiklumOfficeGPB_Builder*) clone;
 
-- (CiklumOffice*) build;
-- (CiklumOffice*) buildPartial;
+- (CiklumOfficeGPB*) build;
+- (CiklumOfficeGPB*) buildPartial;
 
-- (CiklumOffice_Builder*) mergeFrom:(CiklumOffice*) other;
-- (CiklumOffice_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (CiklumOffice_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (CiklumOfficeGPB_Builder*) mergeFrom:(CiklumOfficeGPB*) other;
+- (CiklumOfficeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CiklumOfficeGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasOfficeId;
+- (int64_t) officeId;
+- (CiklumOfficeGPB_Builder*) setOfficeId:(int64_t) value;
+- (CiklumOfficeGPB_Builder*) clearOfficeId;
 
 - (BOOL) hasName;
 - (NSString*) name;
-- (CiklumOffice_Builder*) setName:(NSString*) value;
-- (CiklumOffice_Builder*) clearName;
+- (CiklumOfficeGPB_Builder*) setName:(NSString*) value;
+- (CiklumOfficeGPB_Builder*) clearName;
 
 - (BOOL) hasAddress;
-- (CiklumOffice_AddressGPB*) address;
-- (CiklumOffice_Builder*) setAddress:(CiklumOffice_AddressGPB*) value;
-- (CiklumOffice_Builder*) setAddressBuilder:(CiklumOffice_AddressGPB_Builder*) builderForValue;
-- (CiklumOffice_Builder*) mergeAddress:(CiklumOffice_AddressGPB*) value;
-- (CiklumOffice_Builder*) clearAddress;
+- (CiklumOfficeGPB_AddressGPB*) address;
+- (CiklumOfficeGPB_Builder*) setAddress:(CiklumOfficeGPB_AddressGPB*) value;
+- (CiklumOfficeGPB_Builder*) setAddressBuilder:(CiklumOfficeGPB_AddressGPB_Builder*) builderForValue;
+- (CiklumOfficeGPB_Builder*) mergeAddress:(CiklumOfficeGPB_AddressGPB*) value;
+- (CiklumOfficeGPB_Builder*) clearAddress;
 
 - (NSArray*) employeesList;
-- (CiklumOffice_EmployeeGPB*) employeesAtIndex:(int32_t) index;
-- (CiklumOffice_Builder*) replaceEmployeesAtIndex:(int32_t) index with:(CiklumOffice_EmployeeGPB*) value;
-- (CiklumOffice_Builder*) addEmployees:(CiklumOffice_EmployeeGPB*) value;
-- (CiklumOffice_Builder*) addAllEmployees:(NSArray*) values;
-- (CiklumOffice_Builder*) clearEmployeesList;
+- (CiklumOfficeGPB_EmployeeGPB*) employeesAtIndex:(int32_t) index;
+- (CiklumOfficeGPB_Builder*) replaceEmployeesAtIndex:(int32_t) index with:(CiklumOfficeGPB_EmployeeGPB*) value;
+- (CiklumOfficeGPB_Builder*) addEmployees:(CiklumOfficeGPB_EmployeeGPB*) value;
+- (CiklumOfficeGPB_Builder*) addAllEmployees:(NSArray*) values;
+- (CiklumOfficeGPB_Builder*) clearEmployeesList;
+@end
+
+@interface ErrorGPB : PBGeneratedMessage {
+@private
+  BOOL hasErrorCode_:1;
+  BOOL hasErrorText_:1;
+  int32_t errorCode;
+  NSString* errorText;
+}
+- (BOOL) hasErrorText;
+- (BOOL) hasErrorCode;
+@property (readonly, retain) NSString* errorText;
+@property (readonly) int32_t errorCode;
+
++ (ErrorGPB*) defaultInstance;
+- (ErrorGPB*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ErrorGPB_Builder*) builder;
++ (ErrorGPB_Builder*) builder;
++ (ErrorGPB_Builder*) builderWithPrototype:(ErrorGPB*) prototype;
+
++ (ErrorGPB*) parseFromData:(NSData*) data;
++ (ErrorGPB*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ErrorGPB*) parseFromInputStream:(NSInputStream*) input;
++ (ErrorGPB*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ErrorGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ErrorGPB*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ErrorGPB_Builder : PBGeneratedMessage_Builder {
+@private
+  ErrorGPB* result;
+}
+
+- (ErrorGPB*) defaultInstance;
+
+- (ErrorGPB_Builder*) clear;
+- (ErrorGPB_Builder*) clone;
+
+- (ErrorGPB*) build;
+- (ErrorGPB*) buildPartial;
+
+- (ErrorGPB_Builder*) mergeFrom:(ErrorGPB*) other;
+- (ErrorGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ErrorGPB_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasErrorText;
+- (NSString*) errorText;
+- (ErrorGPB_Builder*) setErrorText:(NSString*) value;
+- (ErrorGPB_Builder*) clearErrorText;
+
+- (BOOL) hasErrorCode;
+- (int32_t) errorCode;
+- (ErrorGPB_Builder*) setErrorCode:(int32_t) value;
+- (ErrorGPB_Builder*) clearErrorCode;
+@end
+
+@interface OfficeRequest : PBGeneratedMessage {
+@private
+  BOOL hasOfficeId_:1;
+  int64_t officeId;
+}
+- (BOOL) hasOfficeId;
+@property (readonly) int64_t officeId;
+
++ (OfficeRequest*) defaultInstance;
+- (OfficeRequest*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (OfficeRequest_Builder*) builder;
++ (OfficeRequest_Builder*) builder;
++ (OfficeRequest_Builder*) builderWithPrototype:(OfficeRequest*) prototype;
+
++ (OfficeRequest*) parseFromData:(NSData*) data;
++ (OfficeRequest*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (OfficeRequest*) parseFromInputStream:(NSInputStream*) input;
++ (OfficeRequest*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (OfficeRequest*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (OfficeRequest*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface OfficeRequest_Builder : PBGeneratedMessage_Builder {
+@private
+  OfficeRequest* result;
+}
+
+- (OfficeRequest*) defaultInstance;
+
+- (OfficeRequest_Builder*) clear;
+- (OfficeRequest_Builder*) clone;
+
+- (OfficeRequest*) build;
+- (OfficeRequest*) buildPartial;
+
+- (OfficeRequest_Builder*) mergeFrom:(OfficeRequest*) other;
+- (OfficeRequest_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (OfficeRequest_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasOfficeId;
+- (int64_t) officeId;
+- (OfficeRequest_Builder*) setOfficeId:(int64_t) value;
+- (OfficeRequest_Builder*) clearOfficeId;
+@end
+
+@interface OfficeResponse : PBGeneratedMessage {
+@private
+  BOOL hasError_:1;
+  ErrorGPB* error;
+  NSMutableArray* mutableOfficeList;
+}
+- (BOOL) hasError;
+@property (readonly, retain) ErrorGPB* error;
+- (NSArray*) officeList;
+- (CiklumOfficeGPB*) officeAtIndex:(int32_t) index;
+
++ (OfficeResponse*) defaultInstance;
+- (OfficeResponse*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (OfficeResponse_Builder*) builder;
++ (OfficeResponse_Builder*) builder;
++ (OfficeResponse_Builder*) builderWithPrototype:(OfficeResponse*) prototype;
+
++ (OfficeResponse*) parseFromData:(NSData*) data;
++ (OfficeResponse*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (OfficeResponse*) parseFromInputStream:(NSInputStream*) input;
++ (OfficeResponse*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (OfficeResponse*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (OfficeResponse*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface OfficeResponse_Builder : PBGeneratedMessage_Builder {
+@private
+  OfficeResponse* result;
+}
+
+- (OfficeResponse*) defaultInstance;
+
+- (OfficeResponse_Builder*) clear;
+- (OfficeResponse_Builder*) clone;
+
+- (OfficeResponse*) build;
+- (OfficeResponse*) buildPartial;
+
+- (OfficeResponse_Builder*) mergeFrom:(OfficeResponse*) other;
+- (OfficeResponse_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (OfficeResponse_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasError;
+- (ErrorGPB*) error;
+- (OfficeResponse_Builder*) setError:(ErrorGPB*) value;
+- (OfficeResponse_Builder*) setErrorBuilder:(ErrorGPB_Builder*) builderForValue;
+- (OfficeResponse_Builder*) mergeError:(ErrorGPB*) value;
+- (OfficeResponse_Builder*) clearError;
+
+- (NSArray*) officeList;
+- (CiklumOfficeGPB*) officeAtIndex:(int32_t) index;
+- (OfficeResponse_Builder*) replaceOfficeAtIndex:(int32_t) index with:(CiklumOfficeGPB*) value;
+- (OfficeResponse_Builder*) addOffice:(CiklumOfficeGPB*) value;
+- (OfficeResponse_Builder*) addAllOffice:(NSArray*) values;
+- (OfficeResponse_Builder*) clearOfficeList;
 @end
 

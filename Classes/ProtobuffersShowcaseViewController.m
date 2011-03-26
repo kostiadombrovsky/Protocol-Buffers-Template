@@ -31,6 +31,12 @@
 {
     [super viewDidLoad];
     
+    CiklumOfficeGPB_EmployeeGPB_Builder* builder = [CiklumOfficeGPB_EmployeeGPB builder];
+    [builder setName: @"Kostia Dombrovsky"];
+    [builder setEmployeeId: 0];
+    [builder setType:       CiklumOfficeGPB_EmployeeGPB_EmployeeTypeIOsdev];
+    CiklumOfficeGPB_EmployeeGPB* employee = [builder build];
+    [employee dump: @"dump"];
 }
 
 @end
